@@ -13,6 +13,21 @@ while (n!=NULL){
 }
 }
 
+void push(struct Node** headref, int e){
+struct Node* n=(struct Node*)malloc(sizeof(struct Node));
+n->data=e;
+n->next=(*headref);
+*headref=n;
+}
+
+void insert(struct Node* prevnode, int e){
+struct Node* n=(struct Node*)malloc(sizeof(struct Node));
+n->data=e;
+n->next=prevnode->next;
+prevnode->next=n;
+
+}
+
 int main(){
 struct Node* head=NULL;
 struct Node* second=NULL;
@@ -28,8 +43,14 @@ head->next=second;
 second->data=2;
 second->next=third;
 
-third->data=3;
+third->data=4;
 third->next=NULL;
+
+push(&head, 0);
+
+insert(second,3);
+insert(second->next,5);
+insert(second->next->next,8);
 
 PrintList(head);
 
