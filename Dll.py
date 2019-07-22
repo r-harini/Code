@@ -32,7 +32,7 @@ class _DoublyLinkedBase:
         return element
     def traverselist(self):
         n=self._header._next
-        while n is not None:
+        while n is not self._trailer:
             print (n._element)
             n=n._next
 
@@ -40,5 +40,6 @@ dl=_DoublyLinkedBase()
 #print (len(dl))
 #print (dl.is_empty())
 #print (dl._insert_between(
-print (dl._insert_between(3,dl._header,dl._trailer))
-print (dl.traverselist())
+n1=dl._insert_between(3,dl._header,dl._trailer)
+n2=dl._insert_between(4,n1,dl._trailer)
+dl.traverselist()
