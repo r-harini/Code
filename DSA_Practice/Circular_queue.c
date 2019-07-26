@@ -9,23 +9,30 @@ struct Queue{
 };
 
 void enqueue(struct Queue* q,int i){
-    if (q->rear==q->max-1){
+    if ((q->rear==q->max-1 && q->front==0)|| q->front==q->rear+1 ){
         printf("Queue is full\n");
         return;
     }
     else{
-        q->rear++;
+        q->rear=(q->rear+1)%(q->max);
         q->a[q->rear]=i;
     }
 }
 
 void dequeue(struct Queue* q){
-    if (q->front==q->rear){
+    if (q->front==-1){
         printf("Queue is empty\n");
     }
     else{
-        q->front++;
+        q->front=(q->front+1)%(q->max);
+        if(q->front==(q->rear-1){    
+            printf("%d\n", q->a[q->front]);
+            q->front=-1;
+            q->rear=-1;
+        }
+        else{
         printf("%d\n", q->a[q->front]);
+        }
     }
 }
 
@@ -56,26 +63,4 @@ void is_full(struct Queue* q){
     else{
         printf("False\n");
     }
-}
-
-void main(){
-    struct Queue* q=(struct Queue*)malloc(sizeof(struct Queue));
-    q->front=-1;
-    q->rear=-1;
-    q->max=5;
-    is_empty(q);
-    enqueue(q,3);
-    is_empty(q);
-    enqueue(q,5);
-    enqueue(q,4);
-    enqueue(q,2);
-    enqueue(q,8);
-    is_full(q);
-    enqueue(q,9);
-    
-    //dequeue(q);
-    //dequeue(q);
-   // dequeue(q);
-   display(q);
-
 }
