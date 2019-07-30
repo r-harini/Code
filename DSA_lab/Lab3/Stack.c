@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<stdbool.h>
+
 
 
 struct Stack{
@@ -27,8 +27,6 @@ else{
 printf("false\n");
 }
 }
-
-
 
 void push(struct Stack* s, int i){
 if (s->top!=s->max){
@@ -69,6 +67,9 @@ push(s,5);
 push(s,3);
 //pop(s);
 push(s,4);
+push(s,2);
+push(s,1);
+pop(s);
 pop(s);
 //pop(s);
 display(s);

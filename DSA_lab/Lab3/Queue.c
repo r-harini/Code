@@ -58,7 +58,7 @@ void is_full(struct Queue* q){
     }
 }
 
-void main(){
+int main(){
     struct Queue* q=(struct Queue*)malloc(sizeof(struct Queue));
     q->front=-1;
     q->rear=-1;
@@ -77,5 +77,5 @@ void main(){
     //dequeue(q);
    // dequeue(q);
    display(q);
-
+   return 0;
 }
