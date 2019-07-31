@@ -43,15 +43,16 @@ void push(struct Stack* s, struct Disks* d){
     }
 }
 
-void pop(struct Stack* s){
+struct Disks* pop(struct Stack* s){
     if (is_empty(s)){
         printf("Stack is empty\n");
     }
     else{
         struct Disks* d=(struct Disks*)malloc(sizeof(struct Disks));
         d=s->a[s->top];
-        printf("%s\n%d\n%d\n%s\n", d->type, d->ID, d->year, d->mname);
+        //printf("%s\n%d\n%d\n%s\n", d->type, d->ID, d->year, d->mname);
         s->top--;
+        return d;
     }
 }
 
@@ -149,12 +150,31 @@ void move_DVD_stack(struct Stack* s, struct Disks* d){
     }
 }
 
+void check_2018(struct Stack* s, struct Stack* s1,struct Queue* q){
+    struct Disks* d=(struct Disks*)malloc(sizeof(struct Disks));
+    for (int i=0;i<s->top;i++){
+        d=pop(s);
+        if (strcmp(d->type,"DVD")==0 && d->year==2018){
+            printf("\n%s is added to the queue\n",d->mname);
+            enqueue(q,d);
+        }
+        else{
+            push(s1,d);
+        }
+    }
+}
+
 int main(){
     struct Stack* s=(struct Stack*)malloc(sizeof(struct Stack));
     s->top=-1;
+    struct Stack* s1=(struct Stack*)malloc(sizeof(struct Stack));
+    s1->top=-1;
     struct Queue* q=(struct Queue*)malloc(sizeof(struct Queue));
     q->rear=-1;
     q->front=-1;
+    struct Queue* q2=(struct Queue*)malloc(sizeof(struct Queue));
+    q2->rear=-1;
+    q2->front=-1;
     int n;
     //printf("Enter n:");
     scanf("%d",&n);
@@ -178,7 +198,7 @@ int main(){
         move_DVD_stack(s,&d[i]);
     }
 
-
+    check_2018(s,s1,q2);
 
     //pop(s);
     //printf("%s\n%d\n%d\n%s\n ", d[1].type, d[1].ID, d[1].year, d[1].mname);
