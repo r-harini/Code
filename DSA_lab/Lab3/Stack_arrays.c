@@ -36,6 +36,7 @@ void pop(int*s){
         printf("Stack is empty\n");
     }
     else{
+        printf("Popped:");
         printf("%d\n",s[top]);
         top--;
     }
@@ -54,6 +55,7 @@ void display(int* s){
 }
 
 int main(){
+    printf("Enter the values:\n5\n4\n3\n2\n1\n");
     push(stack,5);
     push(stack,4);
     push(stack,3);

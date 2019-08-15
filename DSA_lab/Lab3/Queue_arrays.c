@@ -36,6 +36,7 @@ void dequeue(int* q){
         printf("Queue is empty\n");
     }
     else{
+        printf("Dequeued:");
         front++;
         printf("%d\n",q[front]);
     }
@@ -54,6 +55,7 @@ void display(int* q){
 }
 
 int main(){
+    printf("Enter the values:\n5\n4\n3\n2\n1\n");
     enqueue(queue,5);
     enqueue(queue,4);
     enqueue(queue,3);

@@ -34,22 +34,25 @@ void Check_name(struct Employee e){
 }
 
 void main(){
-    struct Employee e[5];
-    for (int i=0;i<3;i++){
+    struct Employee e[10];
+    printf("Enter n:");
+    int n;
+    scanf("%d",&n);
+    for (int i=0;i<n;i++){
         scanf("%d %s %s %d %d %d",&e[i].empno, e[i].e_name, e[i].designation, &e[i].basicpay, &e[i].hra, &e[i].pa );
         e[i].netpay=Calc_Netpay(e[i]);
         printf("The netpay is: %d \n",e[i].netpay);
     }
 
-    for (int i=0;i<3;i++){
+    for (int i=0;i<n;i++){
         Check_Manager(e[i]);
     }
 
-    for (int i=0;i<3;i++){
+    for (int i=0;i<n;i++){
        Check_netpay(e[i]);
     }
 
-    for (int i=0;i<3;i++){
+    for (int i=0;i<n;i++){
        Check_name(e[i]);
     }
 

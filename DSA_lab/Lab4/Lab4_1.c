@@ -1,56 +1,177 @@
 #include<stdio.h>
 #include<stdlib.h>
-#define MAX 100
 
-//int top=-1;
-
-struct Book{
-int a_no;
-char title[50];
-char Author[50];
+struct Node{
+    int data;
+    struct Node* next;
 };
 
-struct Stack{
-int top;
-struct Book* a[10]=(struct Book*)malloc(sizeof(struct Book)*10);
-};
 
-void push(struct Stack* s, struct Book* b){
-if (s->top!=MAX){
-s->top++;
-s->a[s->top]=b;
-}
-else{
-printf("Stack is full\n");
-}
+void display(struct Node* head){
+    struct Node* temp=(struct Node*)malloc(sizeof(struct Node));
+    temp=head->next;
+    
+    printf("Displaying the linked list\n");
+    while(temp!=NULL){
+        
+        printf("%d\n",temp->data);
+        temp=temp->next;
+    }
+    
 }
 
-void pop(struct Stack* s){
-if (s->top==-1){
-printf("Stack is empty\n");
+void add(struct Node* head, int i){
+    struct Node* newnode=(struct Node*)malloc(sizeof(struct Node));
+    newnode->data=i;
+    newnode->next=NULL;
+
+    if (head->next==NULL){
+        head->next=newnode;
+        
+        return;
+    }
+    struct Node* temp=(struct Node*)malloc(sizeof(struct Node));
+    temp=head->next;
+    while (temp->next!=NULL){
+        temp=temp->next;
+    }
+    temp->next=newnode;
 }
-else{
-struct Book* b=s->a[s->top];
-printf("%d\n%s\n%s\n",b->a_no, b->title, b->Author );
-s->top--; 
+
+void insert(struct Node* head,int a, int i){
+    struct Node* newnode=(struct Node*)malloc(sizeof(struct Node));
+    newnode->data=i;
+    struct Node* temp=(struct Node*)malloc(sizeof(struct Node));
+    temp=head->next;
+    while (temp!=NULL){
+        if (temp->data==a){
+            newnode->next=temp->next;
+            temp->next=newnode;
+            return;
+        }
+        else{
+            temp=temp->next;
+        }
+    }
+    printf("Node not found\n");
 }
+
+void find(struct Node* head,int i){
+    struct Node* temp=(struct Node*)malloc(sizeof(struct Node));
+    temp=head->next;
+    while(temp!=NULL){
+        if(temp->data==i){
+            printf("%d found\n",i);
+            return;
+        }
+        else{
+            temp=temp->next;
+        }
+    }
+    printf("Not found\n");
 }
+
+int o=0,e=0;
+void odd_even(struct Node* head){
+    struct Node* temp=(struct Node*)malloc(sizeof(struct Node));
+    temp=head->next;
+    while(temp!=NULL){
+        if (temp->data%2==0){
+            e++;
+        }
+        else{
+            o++;
+        }
+        temp=temp->next;
+    }
+}
+
+struct Node* deletenode(struct Node* head,int i){
+    struct Node* del=(struct Node*)malloc(sizeof(struct Node));
+    if (head->next->data==i){
+        del=head->next;
+        head->next=del->next;
+        return del;
+    }
+    struct Node* temp=(struct Node*)malloc(sizeof(struct Node));
+    temp=head->next;
+    while(temp->next!=NULL){
+        if (temp->next->data==i){
+            del=temp->next;
+            temp->next=del->next;
+            return del;
+        }
+        temp=temp->next;
+    }
+}
+
+void remove_odd(struct Node* head, struct Node* head1){
+    struct Node* temp=(struct Node*)malloc(sizeof(struct Node));
+    temp=head->next;
+    struct Node* n=(struct Node*)malloc(sizeof(struct Node));
+    while (temp!=NULL){
+        if ((temp->data)%2==1){
+            n=deletenode(head, temp->data);
+            add(head1,n->data);
+        }
+        temp=temp->next;
+    }
+}
+
 
 int main(){
-struct Stack* s1=(struct Stack*)malloc(sizeof(struct Stack));
-struct Stack* s2=(struct Stack*)malloc(sizeof(struct Stack));
-s1->top=-1;
-int n1;
-printf("Enter n1:");
-for (int i=0;i<n1;i++){
-struct Book* b=(struct Book*)malloc(sizeof(struct Book));
-scanf("%d\n%s\n%s\n",&b->a_no, b->title, b->Author );
-push(s1,b);
+    struct Node* head=(struct Node*)malloc(sizeof(struct Node));
+    head->next=NULL;
+    struct Node* head1=(struct Node*)malloc(sizeof(struct Node));
+    head1->next=NULL;
+    int c=1,n,a;
+    int i;
+    while (c>0){
+        printf("****MENU*****\n");
+        printf("1->Add a number\n2->Display the list\n3->Insert a number\n");
+        printf("4->Find a number\n5->Check how many odd or even numbers\n");
+        printf("6->Delete a number\n7->Remove all odd nos\n0->End the process\n******\n");
+        scanf("%d",&c);
+        switch (c) {
+            case 1:
+                printf("Enter how many numbers you want to add:");
+                scanf("%d",&n);
+                for (int i=0;i<n;i++){
+                    printf("Enter the value:");
+                    scanf("%d",&a);
+                    add(head,a);
+                }
+                break;
+            case 2:
+                display(head);
+                break;
+            case 3:
+                printf("Enter the number to be inserted:");
+                scanf("%d",&a);
+                printf("Enter the number after which to be inserted:");
+                scanf("%d",&i);
+                insert(head,i,a);
+                break;
+            case 4:
+                printf("Enter the number to be found:");
+                scanf("%d",&a);
+                find(head,a);
+                break;
+            case 5:
+                odd_even(head);
+                printf("Odd nos:%d\n Even nos:%d\n",o,e);
+                break;
+            case 6:
+                printf("Enter the number to be deleted:");
+                scanf("%d",&a);
+                deletenode(head,a);
+                break;
+            case 7:
+                remove_odd(head,head1);
+                display(head1);
+                break;
+        }
+    }
+    
+    return 0;
 }
-pop(s1);
-
-
-return 0;
-}
-
-

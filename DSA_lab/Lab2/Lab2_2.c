@@ -18,7 +18,7 @@ void List_Students(struct Student s){
 }
 
 void main(){
-    for (int i=0;i<1;i++){     
+    for (int i=0;i<3;i++){     
         printf("Enter the student details:");
         scanf( "%d %s %d", &s[i].regno, s[i].name, &s[i].n);
         for (int j=0;j<s[i].n;j++){

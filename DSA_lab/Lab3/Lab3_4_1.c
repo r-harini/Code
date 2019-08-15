@@ -176,7 +176,7 @@ int main(){
     q2->rear=-1;
     q2->front=-1;
     int n;
-    //printf("Enter n:");
+    printf("Enter n:");
     scanf("%d",&n);
     
     struct Disks d[n];
