@@ -200,30 +200,7 @@ int main(){
 
     check_2018(s,s1,q2);
 
-    //pop(s);
-    //printf("%s\n%d\n%d\n%s\n ", d[1].type, d[1].ID, d[1].year, d[1].mname);
-
-    //dequeue(q);
-
-    /*printf("enter the type(CD/DVD), ID, year, mname:\n");
-    scanf("%s %d %d %s",d->type, &d->ID, &d->year, d->mname);
-    push(s,d);
-    struct Disks* d=(struct Disks*)malloc(sizeof(struct Disks));
-    d->type="CD";
-    d->ID=101;
-    d->year=2015;
-    d->mname="Pirates";
-    push(s,d);
-    struct Disks* d1=(struct Disks*)malloc(sizeof(struct Disks));
-    d1->type="CD";
-    d1->ID=123;
-    d1->year=2015;
-    d1->mname="Mermaids";
-    push(s,d1);
-    */
-
-    //pop(s);
-    //pop(s);
+    
     
     return 0;
 }
