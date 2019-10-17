@@ -123,17 +123,7 @@ struct Node* maximum(struct Node* root){
     return root;
 }
 
-/*int minimum(struct Node* root){
-    if (root==NULL){
-        return 0;
-    }
-    int r=root->data;
-    int left=minimum(root->lchild);
-    int right=minimum(root->rchild);
-    if (left<r)r=left;
-    if (right<r)r=right;
-    return r;
-}*/
+
 
 
 int main(){

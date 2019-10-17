@@ -1,80 +1,26 @@
-#include<stdio.h>
 #include<stdlib.h>
+#include<stdio.h>
+#define MAX 5
 
-struct Node{
-    int data;
-    struct Node* next;
-    struct Node* prev;
-}*temp;
+/*struct DQ{
+    int data[100];
+    int front;
+    int rear;
+};
 
-struct Node* head=NULL;
-struct Node* tail=NULL;
-
-algorithm enqueue_first(int i){
-    struct Node* n=(struct Node*)malloc(sizeof(struct Node));
-    n->data=i;
-    if (head==NULL){
-        n->next=NULL;
-        n->prev=NULL;
-        tail=n;
-        head=n;
-        return;
-    }
-    n->next=head;
-    n->prev=NULL;
-    head=n;
+void enqueue_first{
+    
 }
 
-algorithm enqueue_last(int i){
-    struct Node* n=(struct Node*)malloc(sizeof(struct Node));
-    n->data=i;
-    n->next=NULL;
-    if (head==NULL{
-        n->prev=NULL;
-        head=n;
-        tail=n;
-        return;
-    }
-    temp=head;
-    tail->next=n;
-    n->prev=tail;
-    tail=n;
-}
+int main(){
+    struct DQ* dq=(struct DQ)malloc(sizeof(struct DQ));
+    dq->front=-1;
+    dq->rear=-1;
 
-algorithm dequeue_first(){
-    if (head==NULL){
-        printf("List is empty\n");
-        return;
-    }
-    temp=head;
-    head->next->prev=NULL;
-    head=head->next;
-    return temp->data;
+    return 0;
 }
-
-algorithm dequeue_last(){
-    if (head==NULL){
-        printf("List is empty\n");
-       return; 
-    }
-    temp=tail;
-    tail->prev->next=NULL;
-    tail=tail->prev;
-    return temp->data;
-}
-
-algorithm first(){
-    if  (head==NULL){
-        printf("Empty\n");
-        return;
-    }
-    return head->data;
-}
-
-algorithm last(){
-    if (tail==NULL){
-        printf("Empty\n");
-        return;
-    }
-    return tail->data;
+*/
+int main(){
+    int a[5]={1,2,3,4,5};
+    printf("%d",a[-1]);
 }
