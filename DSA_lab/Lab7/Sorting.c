@@ -67,7 +67,7 @@ void merge(int a[], int l, int m, int r){
     i=0;
     j=0;
     k=l;
-    while (i<n2 && j<n2){
+    while (i<n1 && j<n2){
         if (L[i]<=R[j]){
             a[k]=L[i];
             i++;
