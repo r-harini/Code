@@ -30,7 +30,7 @@ int* insertionsort(int* a, int n){
 int partition(int* A, int p, int r){
     int x=A[r];
     int i=p-1;
-    for (int j=p;j<=r-1;j++){
+    for (int j=p;j<r;j++){
         if (A[j]<x){
             i++;
             int t=A[i];

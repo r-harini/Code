@@ -63,16 +63,15 @@ int i;
 enqueue(v);
 state[v]=waiting;
 while(!is_empty()){
-v=dequeue();
-printf("%d",v);
-state[v]=visited;
-
-for (i=0;i<n;i++){
-if (adj[v][i]==1 && state[i]==initial){
-enqueue(i);
-state[i]=waiting;
-}
-}
+	v=dequeue();
+	printf("%d",v);
+	state[v]=visited;
+	for (i=0;i<n;i++){
+		if (adj[v][i]==1 && state[i]==initial){
+			enqueue(i);
+			state[i]=waiting;
+		}
+	}
 }
 printf("\n");
 }
