@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <script>
+          function calculate(){
+              var val=document.getElementById("output").value;
+              var o=eval(val);
+              document.getElementById("output").value=o ;
+          }
+          function append(val){
+              var num=document.getElementById("output").value+=val;
+          }
+        </script>
+    </head>
+    <body>
+        <h1><center>Calculator</center></h1>
+        
+        <center>
+        <table >
+            <tr>
+                <td colspan="4"><input type="text" id="output"></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="7" id="7" onclick="append('7')"></input></td>
+                <td><input type="button" value="8" id="8" onclick="append('8')"></input></td>
+                <td><input type="button" value="9" id="nine" onclick="append('9')"></input></td>
+                <td><input type="button" value="-" id="sub" onclick="append('-')"></input></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="4" id="four" onclick="append('4')"></input></td>
+                <td><input type="button" value="5" id="five" onclick="append('5')"></input></td>
+                <td><input type="button" value="6" id="six" onclick="append('6')"></input></td>
+                <td><input type="button" value="+" id="add" onclick="append('+')"></input></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="1" id="one" onclick="append('1')"></input></td>
+                <td><input type="button" value="2" id="two" onclick="append('2')"></input></td>
+                <td><input type="button" value="3" id="three" onclick="append('3')"></input></td>
+                <td><input type="button" value="x" id="mul" onclick="append('*')"></input></td>
+            </tr>
+            <tr>
+                <td><input type="button"></input></td>
+                <td><input type="button" value="0" id="zero" onclick="append('0')"></input></td>
+                <td><input type="button" value="=" id="equal" onclick="calculate()"></input></td>
+                <td><input type="button" value="/" id="div" onclick="append('/')"></input></td>
+            </tr>
+        </table>
+        </center>
+    </body>
+</html>

@@ -1,0 +1,99 @@
+<html>
+    <head>
+        <title>Quiz</title>
+        <script>
+            function check(q){
+                var i=0;
+                for (i=0;i<q.length;i++){
+                    if (q[i].checked){
+                        //document.write(q[i].value);
+                        return q[i].value;
+                    }
+                }
+            }
+            function score(){
+                var score=0;
+                var q=document.getElementsByName("d1");
+                var q1=check(q);
+                if (q1=="East"){
+                    score++;  
+                }
+                q=document.getElementsByName("d2");
+                var q2=check(q);
+                if (q2=="West"){
+                    score++;
+                    
+                }
+                q=document.getElementsByName("n");
+                var q3=check(q);
+                if (q3=="6"){
+                    score++;
+                }
+                q=document.getElementsByName("wb");
+                var q4=check(q);
+                if (q4=="Bing"){
+                    score++;
+                }
+                q=document.getElementsByName("url");
+                var q5=check(q);
+                if (q5=="1"){
+                    score++;
+                }
+                q=document.getElementsByName("www");
+                var q6=check(q);
+                if (q6=="2"){
+                    score++;
+                }
+                alert("Your score is: "+score);
+            
+            }
+        </script>
+    </head>
+    <body>
+        <center>
+            <h1> Quiz</h1>
+            <form name="quiz">
+                <b>1. Which direction does the Sun rise in?<br></b>
+                <input type="radio" value="North" name="d1">North
+                <input type="radio" value="East" name="d1">East
+                <input type="radio" value="South" name="d1">South
+                <input type="radio" value="West" name="d1">West
+                <br><br>
+                <b>2. Which direction does the Sun set in?<br></b>
+                <input type="radio" value="North" name="d2">North
+                <input type="radio" value="East" name="d2">East
+                <input type="radio" value="South" name="d2">South
+                <input type="radio" value="West" name="d2">West
+                <br><br>
+                <b>3. How many numbers are on a dice?<br></b>
+                <input type="radio" value="4" name="n">4
+                <input type="radio" value="5" name="n">5
+                <input type="radio" value="6" name="n">6
+                <input type="radio" value="7" name="n">7
+                <br><br>
+                <b>4. Which one of these is not a Web Browser?<br></b>
+                <input type="radio" value="Mozilla" name="wb">Mozilla
+                <input type="radio" value="Chrome" name="wb">Chrome
+                <input type="radio" value="Bing" name="wb">Bing
+                <input type="radio" value="Safari" name="wb">Safari
+                <br><br>
+                <b>5. What is the full Form of URL?<br></b>
+                <input type="radio" value="1" name="url">Uniform Resource Locator<br>
+                <input type="radio" value="2" name="url">Under Resource Locator<br>
+                <input type="radio" value="3" name="url">Uniform Reformed Location<br>
+                <input type="radio" value="4" name="url">None of the above <br>
+                <br>
+                <b>6. What is the full form of www?</b><br>
+                <input type="radio" value="1" name="www"> Whole World Web<br>
+                <input type="radio" value="2" name="www"> World Wide Web<br>
+                <input type="radio" value="3" name="www">Whole World Wide<br>
+                <input type="radio" value="4" name="www"> None of the above<br>
+                <br>
+                
+                <button type="button" value="Submit" onclick="score()">Submit</button>
+
+
+            </form>
+        </center>
+    </body>
+</html>

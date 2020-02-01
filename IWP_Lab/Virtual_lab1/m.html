@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <script>
+            function chq(q){
+                for (i=0;i<q.length;i++){
+                    if (q[i].checked){
+                        return q[i].value;
+                    }
+                }
+            }
+
+            function score(){
+                var q=document.getElementsByName("name");
+                var q1=chq(q);
+                alert(q1);
+            }
+        </script>
+    </head>
+    <body>
+        <form name="n">
+            <input type="radio" name="name" value="Harini">Harini<br>
+            <input type="radio" name="name" value="Swati">Swati<br>
+            <input type="radio" name="name" value="Mansi"> Mansi<br>
+            <input type="radio" name="name" value="Kushika">Kushika<br>
+            <button type="button" value="submit" onclick="score()">Submit</button>
+        </form>
+    </body>
+</html>

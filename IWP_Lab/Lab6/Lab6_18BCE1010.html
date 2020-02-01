@@ -1,0 +1,103 @@
+<html>
+    <head>
+        <title>Bike Registration</title>
+        <script>
+            function check(){
+                var n=/^[A-Z][a-z]/;
+                var name=document.getElementById("name").value;
+                if (!n.test(name)){
+                    alert("Enter a valid name");
+                }
+                var m=/^[1-9]{3}[0-9]{7}$/;
+                var mob=document.getElementById("mob").value;
+                if (!m.test(mob)){
+                    alert("Enter a valid mobile number");
+                }
+                var a=/^[0-9]{12}$/;
+                var aad=document.getElementById("aad").value;
+                if (!a.test(aad)){
+                    alert("Enter a valid aadhar number");
+                }
+                var p=/^[A-Z]{5}[0-9]{4}[A-Z]$/;
+                var pan=document.getElementById("pan").value;
+                if (!p.test(pan)){
+                    alert("Enter a valid PAN Number");
+                }   
+                if(!ValidCaptcha()){
+                    alert("Incorrect Captcha");
+                }
+                var z=/^[0-9]{5}/;
+                var zip=document.getElementById("zip").value;
+                if (!z.test(zip)){
+                    alert("Enter a valid zip code");
+                }
+                var e=/^[a-z]+([a-z]|[0-9]|_|.)*@gmail.com/;
+                var email=document.getElementById("email").value;
+                if (!e.test(email)){
+                    alert("Enter a valid email ID");
+                }
+                var c=/(^4[0-9]{12})|(^5[0-9]{15})|(^3(4|7)[0-9]{13})|(^6[0-9]{15})|(^3(0|6|8)[0-9]{12})/;
+                var cc=document.getElementById("cc").value;
+                if (!c.test(cc)){
+                    alert("Enter a valid Credit Card syntax");
+                }     
+            }
+            function Captcha(){
+                var alpha = new Array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+                     var i;
+                     for (i=0;i<6;i++){
+                       var a = alpha[Math.floor(Math.random() * alpha.length)];
+                       var b = alpha[Math.floor(Math.random() * alpha.length)];
+                       var c = alpha[Math.floor(Math.random() * alpha.length)];
+                       var d = alpha[Math.floor(Math.random() * alpha.length)];
+                       var e = alpha[Math.floor(Math.random() * alpha.length)];
+                       var f = alpha[Math.floor(Math.random() * alpha.length)];
+                       var g = alpha[Math.floor(Math.random() * alpha.length)];
+                      }
+                    var code = a + ' ' + b + ' ' + ' ' + c + ' ' + d + ' ' + e + ' '+ f + ' ' + g;
+                    document.getElementById("cap").value = code
+            }
+            function ValidCaptcha(){
+                      var string1 = removeSpaces(document.getElementById('cap').value);
+                      var string2 = removeSpaces(document.getElementById('txt').value);
+                      if (string1 == string2){
+                        return true;
+                      }
+                      else{        
+                        return false;
+                      }
+            }
+            function removeSpaces(string){
+                    return string.split(' ').join('');
+            }
+           
+
+        </script>
+    </head>
+    <body onload="Captcha()">
+        <h1><center>Bike Purchase</center></h1>
+        <form name="Reg">
+            <b>Name of the Customer:<br><input type="text" id="name" >
+            <br><br>
+            Mobile number:<br><input type="number" id="mob">
+            <br><br>
+            Aadhar No.:<br><input type="number" id="aad">
+            <br><br>
+            PAN No.:<br><input type="text" id="pan">
+            <br><br>
+            Captcha:<br><input type="text" id="cap">
+            <input type="button" id="refresh" value="Refresh" onclick="Captcha()">
+            <br>
+            <br><input type="text" id="txt">
+            <br><br>
+            ZIP Code:<br><input type="number" id="zip">
+            <br><br>
+            Email:<br><input type="email" id="email">
+            <br><br>
+            Credit Card: <br><input type="number" id="cc">
+            <br><br>
+            </b>
+        </form>
+        <input type="button" value="Submit" onclick="check()">
+    </body>
+</html>
