@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Election polling</title> 
+        <script src="Voting.js"></script> 
+        
+    </head>
+    <body>
+        <script>
+            then=new Date("15 February, 2020 21:30:00").getTime();
+            var x=setInterval(function(){
+            now=new Date().getTime();
+            var distance=then-now;
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+              var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+              var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            document.getElementById('demo').innerHTML="Hours Left "+hours+":"+minutes+":"+seconds+"<br>";
+            if (distance < 0) {
+                clearInterval(x);
+                //document.getElementById("demo").innerHTML = "EXPIRED";
+                window.location.replace("file:///C:/Code/IWP_Lab/Lab7/Winner.html")
+              }
+            },1000);
+            </script>
+        <link rel="stylesheet" href="Lab7.css">
+        
+        <h1>Election polling</h1>
+        <font size=10px><center><b><p id="demo"></p></b></center></font>
+        <center><button id="start" ><a href="Voting.html">Start</a></button></center>
+       
+    </body>
+</html>

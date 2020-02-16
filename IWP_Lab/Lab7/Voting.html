@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="Voting.js"></script>
+    </head>
+    <body onload="redirect()">
+        <link rel="stylesheet" href="Lab7.css">
+        
+        <h1> Election Polling</h1>
+        
+        <div><b> <center>Voting closes in <span id="time">19:43</span> seconds!</center></b></div><br>
+
+        <script>
+            function startTimer(duration, display){
+                var timer=duration, minutes, seconds;
+                setInterval(function(){
+                    minutes=parseInt(timer/60, 10);
+                    seconds=parseInt(timer%60,10);
+
+                    minutes=minutes<10 ? "0" +minutes: minutes;
+                    seconds=second<10 ? "0" +seconds : seconds;
+
+                    display.textContent= minutes + ":" + seconds;
+
+                    if (--timer <0){
+                        timer=duration;
+                    }
+                }, 1000;)
+            }
+
+            window.onload=function(){
+                var oneminute=60*5, display=document.querySelector('#time');
+                startTimer(oneminute, display);
+            }
+        </script>
+
+        <form name="voting">
+            <center>
+            <table id="table1">
+                <tr>
+                    <td> <input type="radio" value="1" name="p"> Party A</td>
+                    <td><img src="Lotus.png" height="150px"> </td>
+                </tr>
+                <tr>
+                    <td><input type="radio" value="2" name="p">Party B</td>
+                    <td><img src="cycle.jpg" height="100px"></td>
+                </tr>
+                <tr>
+                    <td> <input type="radio" value="3" name="p"> Party C</td>
+                    <td><img src="hand.png" height="150px"> </td>
+                </tr>
+                <tr>
+                    <td><input type="radio" value="4" name="p">Party D</td>
+                    <td><img src="clock.jpg" height="100px"></td>
+                </tr>
+            </table><br><br>
+            <button value="cast" id="start" onclick="cast()">Cast</button>
+            </center>
+        </form>
+    </body>
+</html>

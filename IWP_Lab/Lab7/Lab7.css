@@ -1,0 +1,24 @@
+h1{
+    text-align: center;
+    background-color:rgb(190, 213, 243);
+}
+
+#start{
+    background-color: darkgoldenrod;
+    width: 225px;
+    border:none;
+    height: 40px;
+    font-size: 16px;
+    color: black;
+}
+
+#table1{
+    background-color: burlywood;
+    align-content: center;
+    text-align: center;
+}
+
+#demo{
+    text-align: center;
+    
+}

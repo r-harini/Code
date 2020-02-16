@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+            Parties=[0,0,0,0];
+
+            function winner(){
+    var max=0;
+    var k=0;
+    for (var i=0;i<4;i++){
+        if (Parties[i]>max){
+            max=Parties[i];
+            k=i;
+        }
+    }
+    if (k==0){
+        document.getElementById("winner").innerHTML='Party A';
+    }
+    else if(k==1) {
+        document.getElementById("winner").innerHTML='Party B';
+    }
+    else if(k==2) {
+        document.getElementById("winner").innerHTML='Party C';
+    }
+    else{
+        document.getElementById("winner").innerHTML='Party D';
+    }
+}
+        </script>
+    </head>
+    <body onload="winner()">
+        <link rel="stylesheet" href="Lab7.css">
+        <h1>Electronic Polling</h1>
+        <font size=10px><center><b>The winner is:&nbsp;<p id="winner"></p></b></center></font>
+    </body>
+</html>
