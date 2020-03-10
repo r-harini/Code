@@ -17,9 +17,14 @@ diabetes.head
 print("Diabetes data set dimensions:{}".format(diabetes.shape))
 
 #Visualising the dataset
+corr=diabetes.corr()
+print(corr)
+sns.heatmap(corr, xticklabels=corr.columns, yticklabels=corr.columns)
+
 diabetes.groupby('Outcome').size()
 diabetes.hist(bins=50, figsize=(20,15))
 plt.show()
+
 #Data cleaning
 diabetes.isnull().sum()
 diabetes.isna().sum()
@@ -47,7 +52,6 @@ y=diabetes.Outcome
 #Splitting
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test= train_test_split(X,y, stratify=diabetes.Outcome, random_state=0)
-train_test_split()
 names=[]
 scores=[]
 
@@ -88,6 +92,22 @@ y_pred=classifier3.predict(X_test)
 scores.append(accuracy_score(y_test, y_pred))
 names.append("Logistic Regression")
 
+#Applying Decision Tree Model
+from sklearn.tree import DecisionTreeClassifier
+classifier4=DecisionTreeClassifier(random_state=0)
+classifier4.fit(X_train, y_train)
+y_pred=classifier4.predict(X_test)
+scores.append(accuracy_score(y_test, y_pred))
+names.append('Decision Tree')
+
+#Applying Random Forest Model
+from sklearn.ensemble import RandomForestClassifier
+rf=RandomForestClassifier(n_estimators=100, random_state=0)
+rf.fit(X_train, y_train)
+y_pred=rf.predict(X_test)
+scores.append(accuracy_score(y_test, y_pred))
+names.append('Random Forest')
+
 Final=pd.DataFrame({'Name':names,'Score':scores})
 print(Final)
 
@@ -98,3 +118,9 @@ for p in axis.patches:
     height=p.get_height()
     axis.text(p.get_x()+p.get_width()/2,height+0.005,'{:1.4f}'.format(height), ha="center")
 plt.show()
+
+"""Visualising coefficients learned by the Logistic Regression model"""
+
+#https://towardsdatascience.com/end-to-end-data-science-example-predicting-diabetes-with-logistic-regression-db9bc88b4d16
+#https://towardsdatascience.com/machine-learning-for-diabetes-562dd7df4d42
+

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Kids Zone</title>
+        <script>
+            var queue=[10];
+            var front=-1;
+            var rear=-1;
+            var max=10;
+
+
+            function enq(name){
+                
+                var u=document.getElementById("customer");
+                var l=document.createElement("Li");
+                var t=document.createTextNode(name)
+                l.appendChild(t);
+                u.appendChild(l);
+                
+            }
+
+            function deq(){
+                
+                    
+                    var u=document.getElementById("customer");
+                    var lc=u.firstChild;
+                    u.removeChild(lc);
+                
+            }
+
+            function entry(){
+                var name=document.getElementById('name').value;
+                enq(name);
+                
+            }
+
+            function remove(){
+                deq();
+                //alert(name+ " is going to enter the zone");
+            }
+        </script>
+        
+    </head>
+    <body style="text-align: center;" >
+        <link rel="stylesheet" href="Main.css">
+        <div id="header">  
+            <h1><center>Kids Zone</center></h1>
+            <h2>Registration Form</h2>
+            <br>
+        </div>
+        <form name="form">
+            <br>    
+            Customer Name:
+            <input type="text" id="name">
+            <br><br>
+            <b><ul id="customer" type="none"></ul></b>
+            <button onclick="entry()" type="button"><b>Register</b></button>
+            <button onclick="remove()" type="button"><b>Remove</b></button>
+        </form>
+    </body>
+</html>

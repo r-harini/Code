@@ -1,0 +1,22 @@
+#header{
+    background-color: rgb(216, 248, 71);
+}
+
+body{
+    background-color: rgb(215, 250, 228);
+}
+
+h1{
+    font-size: 50px;
+}
+
+button{
+    background-color: rgb(78, 247, 196);
+    height: 30px;
+    width: 100px;
+    border: none;
+}
+
+#customer{
+    list-style-type: none;
+}
