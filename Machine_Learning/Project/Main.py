@@ -13,6 +13,10 @@ import seaborn as sns
 diabetes=pd.read_csv('Diabetes.csv')
 diabetes.columns
 diabetes.head
+diabetes.describe()
+feature_names=['Pregnancies','Glucose','BloodPressure','SkinThickness','Insulin','BMI','DiabetesPedigreeFunction','Age']
+X=diabetes[feature_names]
+y=diabetes.Outcome
 
 print("Diabetes data set dimensions:{}".format(diabetes.shape))
 
@@ -20,6 +24,15 @@ print("Diabetes data set dimensions:{}".format(diabetes.shape))
 corr=diabetes.corr()
 print(corr)
 sns.heatmap(corr, xticklabels=corr.columns, yticklabels=corr.columns)
+
+sns.countplot(x=diabetes['Age'])
+sns.countplot(x=diabetes['Age'], hue=diabetes['Outcome'])
+sns.countplot(diabetes['Outcome'])
+
+plt.scatter(diabetes['Age'], diabetes['BMI'])
+plt.xlabel('Age')
+plt.ylabel('BMI')
+plt.show()
 
 diabetes.groupby('Outcome').size()
 diabetes.hist(bins=50, figsize=(20,15))
@@ -44,10 +57,20 @@ diabetes['SkinThickness']=diabetes['SkinThickness'].replace(to_replace=0, value=
 median_ins=diabetes['Insulin'].median()
 diabetes['Insulin']=diabetes['Insulin'].replace(to_replace=0, value=median_ins)
 
+#Feature selection
+from sklearn.feature_selection import SelectKBest, chi2
+feature_ranking=SelectKBest(chi2, k=5)
+fit=feature_ranking.fit(X,y)
+fmt = '%-8s%-20s%s'
 
-feature_names=['Pregnancies','Glucose','BloodPressure','SkinThickness','Insulin','BMI','DiabetesPedigreeFunction','Age']
-X=diabetes[feature_names]
-y=diabetes.Outcome
+print(fmt % ('', 'Scores', 'Features'))
+for i, (score, feature) in enumerate(zip(feature_ranking.scores_, X.columns)):
+    print(fmt % (i, score, feature))
+    
+plt.bar(feature_names ,feature_ranking.scores_)
+plt.xlabel('Features', color='red')
+plt.ylabel('Feature Score', color='red')
+plt.show()
 
 #Splitting
 from sklearn.model_selection import train_test_split
@@ -80,6 +103,10 @@ classifier2=GaussianNB()
 classifier2.fit(X_train,y_train)
 y_pred=classifier2.predict(X_test)
 
+conf_matrix = confusion_matrix(y_test,y_pred)
+print(conf_matrix)
+print(f1_score(y_test,y_pred))
+
 scores.append(accuracy_score(y_test,y_pred))
 names.append("Naive Bayes")
 
@@ -89,6 +116,10 @@ classifier3=LogisticRegression()
 classifier3.fit(X_train, y_train)
 y_pred=classifier3.predict(X_test)
 
+conf_matrix = confusion_matrix(y_test,y_pred)
+print(conf_matrix)
+print(f1_score(y_test,y_pred))
+
 scores.append(accuracy_score(y_test, y_pred))
 names.append("Logistic Regression")
 
@@ -97,6 +128,10 @@ from sklearn.tree import DecisionTreeClassifier
 classifier4=DecisionTreeClassifier(random_state=0)
 classifier4.fit(X_train, y_train)
 y_pred=classifier4.predict(X_test)
+conf_matrix = confusion_matrix(y_test,y_pred)
+print(conf_matrix)
+print(f1_score(y_test,y_pred))
+
 scores.append(accuracy_score(y_test, y_pred))
 names.append('Decision Tree')
 
@@ -105,6 +140,10 @@ from sklearn.ensemble import RandomForestClassifier
 rf=RandomForestClassifier(n_estimators=100, random_state=0)
 rf.fit(X_train, y_train)
 y_pred=rf.predict(X_test)
+conf_matrix = confusion_matrix(y_test,y_pred)
+print(conf_matrix)
+print(f1_score(y_test,y_pred))
+
 scores.append(accuracy_score(y_test, y_pred))
 names.append('Random Forest')
 
@@ -118,6 +157,8 @@ for p in axis.patches:
     height=p.get_height()
     axis.text(p.get_x()+p.get_width()/2,height+0.005,'{:1.4f}'.format(height), ha="center")
 plt.show()
+
+
 
 """Visualising coefficients learned by the Logistic Regression model"""
 

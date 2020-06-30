@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 diabetes=pd.read_csv('Diabetes.csv')
+
 data=diabetes
 diabetes.columns
 diabetes.head
