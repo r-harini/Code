@@ -1,0 +1,89 @@
+---
+title: "Project Review: Using Airbnb Dataset"
+output: 
+  html_document: 
+    fig_height: 4
+    highlight: pygments
+    theme: spacelab
+---
+### Reg. No: 18BCE1010
+
+
+### Name: R. Harini
+
+
+### Chosen Dataset: New York City Airbnb Open Data
+
+#### For a decade now, people have used Airbnb to expand travelling possibilities and present a personalized way of exploring the world. This dataset depicts the listing activity and metrics in NYC, NY for 2019.
+
+### Exploration Possibilities:
+
+#### ~Learning about different hosts and area
+
+#### ~Learning from predictions of prices and reviews
+
+#### ~Which location is th busiest and has maximum number of reviews?
+
+#### ~Which group generates maximum revenue?
+
+
+## Setup
+```{r}
+rm(list=ls())
+```
+
+
+### Load packages if any using library(packagename)
+```{r}
+library(dplyr)
+```
+
+
+
+### Load data
+```{r}
+#data(iris) A sample is shown here
+data=read.csv("AB_NYC_2019.csv")
+```
+
+
+
+* * *
+
+
+
+```{r}
+head(data)
+```
+```{r}
+colnames(data)
+```
+
+```{r}
+dim(data)
+```
+
+
+```{r}
+ncol(data)
+nrow(data)
+```
+
+```{r}
+class(data)
+```
+```{r}
+typeof(data)
+```
+
+```{r}
+summary(data)
+```
+
+```{r}
+str(data)
+```
+
+
+
+

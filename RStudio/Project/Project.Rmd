@@ -1,0 +1,67 @@
+---
+title: "Project"
+output: 
+  html_document: 
+    fig_height: 4
+    highlight: pygments
+    theme: spacelab
+---
+
+```{r setup, include=FALSE}
+rm(list=ls())
+library(dplyr)
+```
+
+## 
+
+```{r}
+data=read.csv("AB_NYC_2019.csv", stringsAsFactors = FALSE)
+
+```
+
+
+```{r}
+#Describing the dataset
+summary(data)
+str(data)
+dim(data)
+colnames(data)
+
+```
+
+## Cleaning the dataset
+
+```{r}
+#ID column
+class(data$id)
+sum(is.na(data$id))
+```
+
+
+```{r}
+#Name column
+class(data$name)
+data%>%distinct(name)
+```
+```{r}
+# Host id column
+class(data$host_id)
+sum(is.na(data$host_id))
+```
+
+
+```{r}
+#
+```
+
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
