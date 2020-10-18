@@ -1,0 +1,146 @@
+---
+title: "18BCE1010_Ast2"
+output: html_document
+---
+
+## Name: R. Harini
+
+## Regn No: 18BCE1010
+
+## Dataset: Biopsy Data on breast Cancer Patients
+
+```{r}
+library(MASS)
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+rm(list=ls())
+```
+
+```{r}
+data=biopsy
+str(data)
+summary(data)
+sum(is.na(data$V6))
+data=data%>%mutate(V6=replace(V6, is.na(V6), mean(V6, na.rm = TRUE)))
+sum(is.na(data))
+```
+### 1. Frequency and Relative Frequency Distribution of Benign and Malignant categories
+```{r}
+freq=table(data$class)
+rel_freq=freq/nrow(data)
+
+freq
+rel_freq
+```
+
+### 2. Show frequency distribution graphically by bar chart
+```{r}
+barplot(freq,main="Freq distribution of Benign and Malignant", ylab="Frequency", col=c("blue", "red"))
+```
+
+### 3. Frequency dsitribution of clump thickness
+```{r}
+clump_freq=table(data$V1)
+cbind(clump_freq)
+```
+
+### 4. Mean clump thickness of benign and malignant categories
+```{r}
+data%>%
+  group_by(class)%>%
+  summarize(mean(V1))
+```
+### 5. Most Frequently occurring single epithelial cell size
+```{r}
+table(data$V5)
+which.max(table(data$V5))
+```
+#### The most frequency occurring cell size is 2
+
+### 6. Interquartile Range of epithelial cell size
+```{r}
+IQR(data$V5)
+```
+
+### 7. Checking correlation between clump thickness and epithelial vell size
+```{r}
+cor(data$V1, data$V5)
+```
+#### Since the correlation is >0, it is postively correlated.
+
+### 8. Checking the skewness of clump thickness
+```{r}
+library(e1071)
+skewness(data$V1)
+```
+#### The data is positively skewed/ right-skewed as it is >0
+
+### 9. Predict the value of clump thickness based on other numerical values and compare models
+```{r}
+library(caret)
+library(car)
+data=data[,2:11] #Dropped the ID column
+
+set.seed(123)
+train_samples <- data$V1 %>%
+  createDataPartition(p=0.8,list=FALSE)
+
+train <- data[train_samples,]
+test <- data[-train_samples,]
+
+model1=lm(V1~.,data=train)
+summary(model1)
+pred=model1%>%
+  predict(test)
+```
+
+```{r}
+
+confint(model1)
+RMSE(pred,test$V1)
+R2(pred,test$V1)
+```
+```{r}
+vif(model1)
+```
+```{r}
+model2=lm(V1~.-V2, data=train)
+pred2=model2%>%
+  predict(test)
+RMSE(pred2,test$V1)
+R2(pred2,test$V1)
+
+```
+```{r}
+model3=lm(V1~.-V2-V3,data=train)
+pred3=model3%>%
+  predict(test)
+RMSE(pred3,test$V1)
+R2(pred3,test$V1)
+```
+```{r}
+model4=lm(V1~V4*V5, data=train)
+pred4=model4%>%
+  predict(test)
+RMSE(pred4,test$V1)
+R2(pred4,test$V1)
+```
+```{r}
+model5=lm(V1~V4+V5,data=train)
+pred5=model5%>%
+  predict(test)
+RMSE(pred5,test$V1)
+R2(pred5,test$V1)
+```
+
+#### On comparing 3 models, the third model which has dropped the variables V2 and V3 perform the best. The conclusion has been reached by comparing the R2 and RMSE of the models. Model 3 has the highest R2 (0.508) and the lowest RMSE(1.99)
+```{r}
+plot(model3,1)
+plot(model3,2)
+plot(model3,3)
+plot(model3,4)
+```
+

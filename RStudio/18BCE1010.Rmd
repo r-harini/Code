@@ -1,0 +1,172 @@
+---
+title: "Assessment 1"
+output: 
+  html_document: 
+    fig_height: 4
+    highlight: pygments
+    theme: spacelab
+---
+### Reg. No: 18BCE1010
+
+### Name:R. Harini
+
+### Frame any 10 questions for data manipulation
+
+
+* * *
+Your Question here
+```{r}
+rm(list=ls())
+library(MASS)
+library(dplyr)
+library(ggplot2)
+df=Pima.tr
+```
+
+
+* * *
+### Data Manipulation
+
+
+```{r}
+str(df)
+colnames(df)
+```
+
+#### 1. Display npreg and age of people with type Yes
+```{r}
+df%>%
+  filter(type=="Yes")%>%
+  dplyr::select(npreg, age, type)
+```
+
+#### 2. Find the max bmi who have diabetes type as Yes
+```{r}
+df%>%
+  filter(type=="Yes")%>%
+  summarise(max(bmi))
+```
+
+#### 3. Create a new variable which is the average of glu and bp and add it to the dataset
+```{r}
+df=df%>%
+  mutate(g_b=(glu+bp)/2)
+df
+```
+
+#### 4. Arranging the dataset in descending order according to age for all type "Yes"
+```{r}
+arrange(df, desc(age))%>%filter(type=="Yes")
+```
+
+#### 5. Find the standard deviation of bp for type Yes and No
+```{r}
+df%>%
+  group_by(type)%>%
+  summarise(sd(bp))
+```
+
+#### 6. Display bp and glu of those who have type Yes and age above 30
+```{r}
+df%>%
+  filter(type=="Yes" & age>30)%>%
+  dplyr::select(bp, glu, type, age)
+```
+
+#### 7. Find the average of bp, glu for people with age below 30 and bmi above 30 with type Yes and No
+```{r}
+df%>%
+  filter(age<30 & bmi>30)%>%
+  group_by(type)%>%
+  summarise(mean(bp), mean(glu))
+```
+
+#### 8. Display the variance of bmi for people with npreg above the average npreg and skin below 20
+```{r}
+df%>%
+  filter(npreg>mean(npreg) & skin<20)%>%
+  summarise(var(bmi))
+
+```
+
+#### 9. Arrange the dataset in ascending order of bmi with skin below 25 and ped above 1
+```{r}
+arrange(df, bmi)%>%
+  filter(skin<25 & ped>1)
+```
+
+
+#### 10. Group the dataset based on Type for all those who have age higher than the mean and find the variance of bp
+
+```{r}
+df%>%
+  group_by(type)%>%
+  filter(age>mean(age))%>%
+  summarise(var(bp))
+```
+
+
+* * *
+### Visualisation
+
+#### 1. Visualising the range of Age
+```{r}
+hist(df$age, main="Range of Age", xlab = "Age", col = "light blue")
+```
+
+#### 2. Visualising the frequency of Type Yes and No
+```{r}
+c=df%>%
+  group_by(type)%>%
+  tally()
+c
+barplot(c$n, main="Frequnecy of Type", names.arg = c$type, col=c("blue", "red"))
+```
+
+#### 3. visualising the summary statistics of bp
+```{r}
+summary(df$bp)
+boxplot(df$bp, main="Summary Statistics of bp")
+```
+
+
+#### 4. Scatter plot between Glu and Skin
+```{r}
+plot(df$glu, df$skin, main = "Scatter Plot between Glue and Skin", xlab = "Glucose", ylab="Skin", col="green")
+```
+
+
+#### 5. Scatter plot between BMI and Ped for each Type
+```{r}
+ggplot(df, aes(x=bmi, y=ped))+geom_point()+facet_wrap(~type)+labs(title="BMI vs Ped")
+```
+
+#### 6. A Pie Chart for number of Yes and No taking npreg as the levels
+```{r}
+ggplot(df, aes(x=npreg,y=type, fill=type))+geom_bar(stat="identity", width=1)+coord_polar("y", start=0)
+
+```
+
+#### 7. Density plot of Bp
+```{r}
+d=density(df$bp)
+plot(d, main="Density plot for BP")
+```
+
+#### 8. Creating the scatter Plot for Bp, Bmi with varying size based on Ped
+```{r}
+ggplot(df, aes(x=bp, y=bmi, size=ped, col="red"))+geom_point()+labs(title = "Bp vs bmi with Ped")
+```
+
+#### 9. Creating a Scatter Plot between Glu and Age with Type as Shape
+```{r}
+ggplot(df, aes(x=glu, y=age, shape=type))+geom_point()+labs(title = "Age vs Glucose For different types")
+```
+
+#### 10. Adding a best fit line to Skin vs Age
+```{r}
+ggplot(df, aes(x=skin, y=age))+geom_point()+geom_smooth(method = 'lm')+labs(title="Skin vs Age")
+```
+
+
+

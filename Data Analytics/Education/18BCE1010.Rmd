@@ -1,0 +1,15 @@
+---
+title: "Digital Assignment 3"
+output: html_document
+---
+# Name: R. Harini
+
+# Reg No: 18BCE1010
+
+# Dataset: India's Education 2015-2016 Elementary School 
+```{r setup, include=FALSE}
+rm(list=ls())
+```
+
+
+

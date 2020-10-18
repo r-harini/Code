@@ -23,7 +23,7 @@ public class Static {
 		else {
 			System.out.println("F"); 
 		}*/
-		
+		System.out.printf("%.2f",(108*5)/100);
 		
 	}
 

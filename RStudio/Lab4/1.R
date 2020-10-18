@@ -16,3 +16,9 @@ cust%>%
 
 cust%>%
   distinct(MonthlyCharges)
+
+df%>%
+  group_by(Sex)%>%
+  summarise(mean(Pulse))
+
+
