@@ -66,13 +66,20 @@ split = sample.split(df2$price, SplitRatio = 0.75)
 training_set = subset(df2, split == TRUE)
 test_set = subset(df2, split == FALSE)
 
+# backward elimination
+fit1=lm(price~., data=c1)
+step(fit1, direction="backward")
+library(SignifReg)
+SignifReg(fit1, scope=training_set,criterion="p-value", direction="backward",alpha=0.05)
+
+
 #Model 1 (including outliers)
 m1 <- training_set %>% select(price, # place target variable first
                               neighbourhood_group,
                               latitude, 
                               longitude,                     
                               room_type,                                               
-                              #minimum_nights, 
+                              minimum_nights, 
                               number_of_reviews,             
                               #reviews_per_month,             
                               calculated_host_listings_count,
@@ -132,8 +139,8 @@ m4 = rpart(formula = price ~ .,
            method = "anova")
 printcp(m4)
 caret::varImp(m4)
-
-
+library(rpart.plot)
+rpart.plot(m4)
 # Random Forest Regression
 library(randomForest)
 set.seed(1234)

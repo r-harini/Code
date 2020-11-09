@@ -1,6 +1,6 @@
 package lab7;
 
-public class FivePriorityThreads extends Thread{
+public class FivePriorityThreads{
 public static void main(String args[]) throws InterruptedException {
 Thread T1=new Thread();
 Thread T2=new Thread();
