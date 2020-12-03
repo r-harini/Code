@@ -205,7 +205,18 @@ summary.aov(res3)
 ```
 
 * * *
+# Performing F-Test
+```{r}
+res=var.test(chol~sex, data=data, alternative="two.sided")
+res
+```
 
+```{r}
+res$estimate
+```
 
+```{r}
+res$p.value
+```
 
 
