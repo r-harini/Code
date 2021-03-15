@@ -1,0 +1,138 @@
+---
+title: "Lab9_18BCE1010"
+output: html_document
+---
+# Name: R. Harini
+
+# Reg No: 18BCE1010
+
+# Dataset: Life Expectancy rate for different Countries by WHO
+
+```{r setup, include=FALSE}
+rm(list=ls())
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+library(gridExtra)
+library(reshape2)
+library(car)
+```
+
+
+```{r}
+data=read.csv("Life_Expectancy_Data.csv", stringsAsFactors = TRUE)
+```
+
+```{r}
+summary(data)
+str(data)
+head(data)
+```
+### Data Cleaning
+```{r}
+sum(is.na(data))
+```
+
+```{r}
+data=data%>%
+  drop_na()%>%
+  filter(!is.na(Life.expectancy), !is.na(Adult.Mortality), !is.na(infant.deaths))
+sum(is.na(data))
+```
+### Exploratory Data Analytics
+
+```{r}
+data%>%
+  group_by(Status)%>%
+  summarize(count=n(), avg_life_exp=mean(Life.expectancy),avg_inf_mort=mean(infant.deaths), avg_adul_mort=mean(Adult.Mortality))
+```
+
+#### Finding the number of Developed and Devloping Countries
+```{r}
+unique(data$Country)
+table(data$Status)
+```
+
+#### Find average of Life Expectancy over 15 years for each country
+```{r}
+data%>%
+  group_by(Country)%>%
+  summarise(Avg_life_expectancy=round(mean(Life.expectancy)))
+```
+
+
+#### Picking any 3 developed and developing countries
+```{r}
+dd=data%>%
+  filter(Country %in% c('Austria','Belgium','Croatia'))
+
+di=data%>%
+  filter(Country %in% c('Brazil','Iraq','India'))
+
+```
+
+#### Plotting Developed Countries
+```{r}
+p1=ggplot(dd, aes(Year, percentage.expenditure))+geom_smooth(aes(color=Country), se=FALSE)+facet_grid(Country~.)
+
+p2=ggplot(dd, aes(Year, Life.expectancy))+geom_smooth(aes(color=Country), se=FALSE)+facet_grid(Country~.)
+
+grid.arrange(p1,p2,nrow=1)
+
+```
+#### Plotting Developing Countries
+```{r}
+p1=ggplot(di, aes(Year, percentage.expenditure))+geom_smooth(aes(color=Country), se=FALSE)+facet_grid(Country~.)
+
+p2=ggplot(di, aes(Year, Life.expectancy))+geom_smooth(aes(color=Country), se=FALSE)+facet_grid(Country~.)
+
+grid.arrange(p1,p2,nrow=1)
+```
+#### Visualise Population of countries
+```{r}
+ggplot(dd,aes(x=Country, y=Population,fill=Country))+geom_bar(stat="identity")
+```
+```{r}
+ggplot(di,aes(x=Country, y=Population,fill=Country))+geom_bar(stat="identity")
+```
+
+#### 
+```{r}
+ggplot(rbind(dd,di), aes(x=percentage.expenditure, y=Total.expenditure, col=Country))+geom_point()+facet_wrap(~Country)+ggtitle("Percentage Expenditure vs Total Expenditure")+xlab("Percentage Expenditure")+ylab("Total Epxenditure")+theme_minimal()
+```
+
+
+#### Scatter plot between BMI and alcohol
+```{r}
+ggplot(data, aes(BMI, Alcohol, col=Status))+geom_point()+ggtitle("Alcohol vs BMI")
+```
+#### Performing ANOVA
+```{r}
+a=aov(Life.expectancy~Status, data)
+summary.aov(a)
+leveneTest(Life.expectancy~Status, data)
+```
+
+#### Correlation between diseases
+```{r}
+d=data%>%
+  drop_na()%>%
+  select(Hepatitis.B, Polio, Measles, HIV.AIDS, Diphtheria)
+
+c=cor(d)
+m=melt(c)
+ggplot(m)+geom_tile(aes(Var1, Var2, fill=value))
+```
+
+```{r}
+m1=lm(Life.expectancy~., data=data)
+summary(m1)
+```
+
+```{r}
+plot(m1)
+```
+

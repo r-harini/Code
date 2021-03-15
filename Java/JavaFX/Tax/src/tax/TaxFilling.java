@@ -24,11 +24,13 @@ import javafx.stage.Stage;
 public class TaxFilling extends Application {
     double tax;
     Boolean taxCalculated=false;
-    Text t2= new Text();
+    
     int income;
-    Text t6=new Text();
+    
     @Override
     public void start(Stage primaryStage) {
+        Text t2= new Text();
+        Text t6=new Text();
         Text t1 = new Text("Income: ");
         TextField tf1 = new TextField();
         Button btn = new Button();
@@ -42,10 +44,7 @@ public class TaxFilling extends Application {
         m3.setUserData((double).2);
         MenuItem m4 = new MenuItem("Tax Rate: 30%");
         m4.setUserData((double).3);
-        m.getItems().add(m1);
-        m.getItems().add(m2);
-        m.getItems().add(m3);
-        m.getItems().add(m4);
+       
         
         Button pay= new Button();
         pay.setText("Pay Tax");
@@ -68,6 +67,11 @@ public class TaxFilling extends Application {
         
         m4.setOnAction(event);
   
+        m.getItems().add(m1);
+        m.getItems().add(m2);
+        m.getItems().add(m3);
+        m.getItems().add(m4);
+        
         // create a menubar 
         MenuBar mb = new MenuBar(); 
   

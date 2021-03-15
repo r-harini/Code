@@ -1,0 +1,188 @@
+---
+title: "LabEx6-Descriptive statistics and Visualization in R"
+output: 
+  html_document: 
+    fig_height: 4
+    highlight: pygments
+    theme: spacelab
+---
+### Reg. No: 18BCE1010
+
+### Name: R. Harini
+
+## Setup
+```{r}
+rm(list=ls())
+```
+
+
+### Load packages if any using library(packagename)
+```{r}
+library(dplyr)
+library(MASS)
+library(e1071)
+library(ggplot2)
+```
+
+
+
+### Load data
+```{r}
+data=read.csv("heart.csv")
+colnames(data)[1]="age"
+colnames(data)
+
+#Converting the required columns to factors
+str(data)
+data=data%>%
+  mutate(sex=replace(sex, sex==1, "Male"))
+data=data%>%
+  mutate(sex=replace(sex, sex==0, "Female"))
+data=data%>%
+  mutate(target=replace(target, target==1, "Yes"))
+data=data%>%
+  mutate(target=replace(target, target==0, "No"))
+data$sex=as.factor(data$sex)
+data$target=as.factor(data$target)
+data$slope=as.character(data$slope)
+data$slope=as.factor(data$slope)
+str(data)
+
+sum(is.na(data))
+```
+### Frame a minimum of 3 questions for qualitative data analysis and provide appropriate visualization
+* * *
+#### 1. Number of Male and Female Participants who had heart disease
+```{r}
+d=data%>%
+  filter(target=="Yes")
+freq=table(d$sex)
+cbind(freq)
+
+barplot(freq, main="Male and Female participants with heart disease", ylab = "frequency", col=c("blue", "red"), names.arg = levels(d$sex))
+
+```
+
+#### 2.Relative frequency distribution of the slope
+```{r}
+
+freq=table(data$slope)
+rel=freq/nrow(data)
+round(rel,2)
+pie(round(rel,2))
+```
+
+
+#### 3. Percentage of Females who suffer from Heart Disease
+```{r}
+c=data[which(data$sex=="Female" & data$target=="Yes"),]
+perc=nrow(d)/nrow(data)*100
+perc
+```
+
+* * *
+
+
+* * *
+
+
+### Frame a minimum of 5 questions for quantitative data analysis and provideappropriate visualization
+* * *
+#### 1. Find the range of Age
+```{r}
+range(data$age)
+hist(data$age, main="Histogram of Age")
+```
+
+#### 2. Frequency distribution of Age
+```{r}
+breaks <- seq(28,78,by=5)
+age_split=cut(data$age, breaks,right=FALSE)
+freq=table(age_split)
+cbind(freq)
+barplot(freq, main="Frequency distribution of Age")
+```
+
+#### 3. Finding range of chol and finding the relative frequency
+```{r}
+range(data$chol)
+breaks=seq(126,566,by=20)
+chol_split=cut(data$chol, breaks, right=F)
+chol_freq=table(chol_split)
+chol_rel=round(chol_freq/nrow(data),2)
+chol_rel
+barplot(chol_rel, main="Relative frequency distribution of Chol")
+```
+
+#### 4. Finding cumulative frequency distribution of trestbps
+```{r}
+range(data$trestbps)
+breaks=seq(90,200,by=20)
+tres_split=cut(data$trestbps, breaks, right = F)
+tres_freq=table(tres_split)
+cumsum(tres_freq)
+hist(data$trestbps, main="Histogram of trestbps")
+```
+
+#### 5. Finding cumulative relative frequency distribution of thalach
+```{r}
+range(data$thalach)
+breaks=seq(70,210,by=20)
+thal_split=cut(data$thalach, breaks, right=F)
+thal_freq=cbind(table(thal_split))
+thal_freq
+cumsum(thal_freq)/nrow(data)
+hist(data$thalach,main="Histogram of Thalach")
+```
+
+
+
+* * *
+
+
+### Frame a minimum of 5 questions for numerical measures analysis and provide appropriate visualization
+
+* * *
+#### 1. Finding the moments of trestbps of people who have heart disease
+```{r}
+d=data%>%
+  filter(target=="Yes")
+moment(d$trestbps, order=3, center=TRUE)
+ggplot(d, aes(x=trestbps))+geom_density()
+```
+
+#### 2. Finding kurtosis of thalach of people who have heart disease
+```{r}
+kurtosis(d$thalach)
+hist(d$thalach, main="Hist of thalach with target='Yes'")
+```
+
+#### 3. Finding the skewness in Chol of people who have heart disease
+```{r}
+skewness(d$chol)
+ggplot(d, aes(x=chol))+stat_density(geom="line", alpha=1, colour="blue")
+
+```
+
+#### 4. Finding statistical measure of oldpeak of people who have heart disease
+```{r}
+summary(d$oldpeak)
+boxplot(d$oldpeak)
+```
+
+#### 5. Finding the average age of males who do not have heart disease
+```{r}
+c=data%>%
+  filter(target=="No" & sex=='Male')
+mean(c$age)
+boxplot(c$age)
+```
+
+
+
+* * *
+
+
+
+
+

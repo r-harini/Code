@@ -1,0 +1,222 @@
+---
+title: "LabEx7-Analysis of Variance (ANOVA)"
+output: 
+  html_document: 
+    fig_height: 4
+    highlight: pygments
+    theme: spacelab
+---
+### Reg. No: 18BCE1010
+
+### Name: R. Harini
+
+## Setup
+```{r}
+rm(list=ls())
+```
+
+
+### Load packages if any using library(packagename)
+```{r}
+library(dplyr)
+library(ggplot2)
+library(car)
+library(ggpubr)
+```
+
+
+### Load data
+```{r}
+data=read.csv("heart.csv")
+
+colnames(data)[1]="age"
+colnames(data)
+
+#Converting the required columns to factors
+str(data)
+data=data%>%
+  mutate(sex=replace(sex, sex==1, "Male"))
+data=data%>%
+  mutate(sex=replace(sex, sex==0, "Female"))
+data=data%>%
+  mutate(target=replace(target, target==1, "Yes"))
+data=data%>%
+  mutate(target=replace(target, target==0, "No"))
+data$sex=as.factor(data$sex)
+data$target=as.factor(data$target)
+data$slope=as.character(data$slope)
+data$slope=as.factor(data$slope)
+str(data)
+
+```
+
+* * *
+### Checking for Significant Difference b/w Average Trestbps with different Target (1-way ANOVA)
+##### Assuming that the variables have normal distribution
+```{r}
+levels(data$target)
+data%>%
+  group_by(target)%>%
+  summarize(count=n(),mean=mean(trestbps), std_dev=sd(trestbps))
+
+```
+```{r}
+ggplot(data, aes(x=target, y=trestbps))+geom_boxplot()
+```
+
+```{r}
+ggline(data, x="target",y="trestbps", add=c("mean_se"), ylab="Trestbps", xlab = "Target")
+```
+
+
+```{r}
+
+res=aov(trestbps~target,data=data)
+summary.aov(res)
+```
+
+
+#### Checking Homogeneity of Variance
+```{r}
+plot(res,1)
+leveneTest(trestbps~target, data)
+```
+
+#### Checking normality Assumptions
+```{r}
+plot(res,2)
+
+resi=residuals(res)
+shapiro.test(resi)
+```
+
+#### Non Parametric Alternative as Assumptions arent met
+```{r}
+kruskal.test(trestbps~slope, data)
+```
+
+* * *
+
+### What is your inference for one-way ANOVA test?
+* * *
+```{r}
+## Since the p-value (0.0115) is less than 0.05, we can say that there is a significant difference between the groups.
+
+## Although there is only one pair, I have still tried out the TukeyHSD to see what result it shows.
+
+## However in Levene's test we can see that the p-value (0.174)>0.05, therefore there is no significance level of variance between the gorups.
+
+## In Shapiro-test, the p-value is less than 0.05 significance level, implying there exists significant difference from normal distribution, we can assume there exists no normality
+
+## Therefore performing Kruskal-Wallis rank sum test as ANOVA assumptions arent met.
+```
+
+
+ 
+* * *
+### Checking for the effect of Slope and Sex on Chol (2-way ANOVA)
+
+#### Summary Statistics
+```{r}
+levels(data$sex)
+
+data%>%
+  group_by(sex, slope)%>%
+  summarise(count=n(), mean=mean(chol), std_dev=sd(chol))
+
+```
+
+#### Plotting
+```{r}
+ggboxplot(data, x="slope", y="chol", color = "sex", pallete=c("green", "blue"))
+
+```
+
+####Computing 2-way ANOVA using additive model
+```{r}
+res2=aov(chol~sex+slope, data)
+summary.aov(res2)
+```
+
+####Computing 2-way ANOVA using interactions
+```{r}
+res3=aov(chol~sex*slope, data)
+summary.aov(res3)
+```
+
+#### Performing TukeyHSD
+```{r}
+TukeyHSD(res2, which="sex")
+```
+
+#### Checking Homogeneity
+```{r}
+plot(res2, 1)
+
+leveneTest(chol~sex*slope, data)
+```
+
+#### Checking normality
+```{r}
+plot(res2, 2)
+
+res2_resi <- residuals(res2)
+shapiro.test(res2_resi)
+
+```
+
+#### Computing 2-way ANOVA test for unbalanced designs
+```{r}
+ao=aov(chol~sex*slope, data)
+Anova(ao, type="III")
+```
+
+
+* * *
+
+### What is your inference for two-way ANOVA test  
+* * *
+```{r}
+## Since the p-value (0.000542 ***) is less than 0.05, we can say that there is a significant difference between the groups.
+
+## Although there is only one pair, I have still tried out the TukeyHSD to see what result it shows.
+
+## However in Levene's test we can see that the p-value (0.08839)>0.05, therefore there is no significance level of variance between the gorups.
+
+## In Shapiro-test, the p-value is less than 0.05 significance level, implying there exists significant difference from normal distribution, we can assume there exists no normality
+```
+
+
+* * *
+
+### Frame a question for MANOVA and do the analysis 
+* * *
+```{r}
+res3=manova(cbind(trestbps, chol)~sex, data=data)
+summary.aov(res3)
+```
+
+### What is your inference for  MANOVA test  
+
+```{r}
+### Since the p-value for trestbps  (0.3247)>0.05, we can say there there is no significant level of difference of Trestbps in the Sex groups.
+
+## However the p-value of chol (0.00053 ***) <0.05, we can say that there is a significant level of difference of Chol in the sex groups.
+```
+
+* * *
+# Performing F-Test
+```{r}
+res=var.test(chol~sex, data=data, alternative="two.sided")
+res
+```
+
+```{r}
+res$estimate
+```
+
+```{r}
+res$p.value
+```
+
+

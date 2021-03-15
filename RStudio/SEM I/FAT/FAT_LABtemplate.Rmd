@@ -1,0 +1,254 @@
+---
+title: "FAT_LAB"
+output: 
+  html_document: 
+    fig_height: 4
+    highlight: pygments
+    theme: spacelab
+---
+### Reg. No: 18BCE1010
+
+### Name: R. Harini
+
+### Dataset: Credit Card
+
+
+* * *
+```{r}
+rm(list=ls())
+library(dplyr)
+library(ggplot2)
+library(car)
+library(caret)
+```
+```{r}
+df=read.csv("CreditCard.csv", stringsAsFactors = TRUE)
+```
+
+
+* * *
+#### 1. Display the structure of the data set.
+
+```{r}
+
+str(df)
+```
+
+
+#### 2. Print the bottom 10 observations in the data set.
+
+```{r}
+tail(df,10)
+```
+
+#### 3. Display the summary statistics of the variables income share and expenditure.
+```{r}
+summary(df$income)
+summary(df$share)
+summary(df$expenditure)
+```
+
+* * *
+#### 4. Print the average income, median share and minimum expenditure for the applicants who do not own a house and had their application rejected.
+```{r}
+d=df%>%
+  filter(owner=='no' & card=='no')
+mean(d$income)
+median(d$share)
+min(d$expenditure)
+```
+#### 5. Do a random sampling of 15 data and plot to observe any outlier in the income? Justify your answer by appropriate plot and inference.
+```{r}
+s=sample(df$income, size=15)
+boxplot(s, main="Samples of Income")
+```
+
+##### Since there are points visible above the top-most horizontal line, we can infer that outliers are present in the Income variable
+
+
+
+#### 6. Find the standard deviation of income
+```{r}
+sd(df$income)
+```
+#### 7. Create a new column called income_cat which would have 3 labels as low, medium and high according to the income <=2.5, income >=2.5 and income<=4 and age>4 respectively.
+```{r}
+newdf=df%>%
+  mutate(income_cat=case_when(income<=2.5~"low",
+                   income>=2.5 & income<=4~"medium",
+                   income>4~"high"))
+colnames(newdf)
+head(newdf$income_cat,10)
+```
+
+
+
+#### 8. Identify which income category applicants have their applications mostly rejected.
+```{r}
+t=newdf%>%
+  filter(card=="no")
+max(table(t$income_cat))
+which.max(table(t$income_cat))[1]
+
+```
+##### The Low income category applicants have their applications mostly rejected. (freq= 142)
+
+#### 9. Is there any low income self-employed applicants with own house got their application accepted?
+```{r}
+newdf%>%
+  filter(income_cat=="low" & owner=="yes" & selfemp=="yes" & card=="yes")
+```
+##### Yes there are 5 people satisfying all the conditions.
+* * *
+#### 10. What is the frequency and relative frequency distribution of applicants owning and not owning house?
+```{r}
+freq=table(df$owner)
+freq
+rel_freq=freq/nrow(df)
+rel_freq
+```
+
+#### 11.  Provide visualization of frequency distribution of applicants owning and not owning house.
+```{r}
+ggplot(df, aes(x=owner, fill=owner))+geom_bar()+ggtitle("Frequency distribution of the owners")+xlab("Owning the house: Yes or No")+ylab("Frequency")
+```
+
+#### 12. Does the income and expenditure of the applicants correlated? Justify your answer.
+```{r}
+cor(df$income, df$expenditure)
+```
+##### The variables are mildly correlated as the correlation coefficient is above 0 but still well below 0.5.
+
+* * *
+#### 13. Predict the value of expenditure based on other numerical values and compare various models with different combination of variables. Suggest a model with limited dependent variables that is better according to you. Justify your analysis.
+```{r}
+# Drop the ID column
+data=df[,2:13]
+
+set.seed(123)
+train_samples <- data$expenditure %>%
+  createDataPartition(p=0.8,list=FALSE)
+
+train <- data[train_samples,]
+test <- data[-train_samples,]
+
+model1=lm(expenditure~.,data=train)
+summary(model1)
+
+```
+```{r}
+pred=model1%>%
+  predict(test)
+```
+
+```{r}
+RMSE(pred,test$expenditure)
+```
+```{r}
+R2(pred,test$expenditure)
+```
+
+```{r}
+confint(model1)
+```
+```{r}
+vif(model1)
+```
+##### Since all the values are less than 5, we needn't remove any variables yet.
+
+
+#### Model 2
+```{r}
+#Removing the least significant variables from the model
+model2=lm(expenditure~.-selfemp-card-majorcards, data=train)
+summary(model2)
+```
+```{r}
+pred2=model2%>%
+  predict(test)
+```
+
+```{r}
+RMSE(pred2, test$expenditure)
+```
+```{r}
+R2(pred2,test$expenditure)
+```
+#### Model 3
+```{r}
+model3=lm(expenditure~
+            age+dependents+months+active,data=train)
+summary(model3)
+```
+```{r}
+pred3=model3%>%
+  predict(test)
+```
+
+```{r}
+RMSE(pred3, test$expenditure)
+```
+```{r}
+R2(pred3, test$expenditure)
+```
+#### Model 4
+```{r}
+model4=lm(expenditure~log(share)*age*income*dependents,data=train)
+summary(model4)
+```
+```{r}
+pred4=model4%>%
+  predict(test)
+```
+
+```{r}
+RMSE(pred4,test$expenditure)
+```
+```{r}
+R2(pred4,test$expenditure)
+```
+
+
+#### Model 5
+```{r}
+# Using only the most significant variables from model 1
+model5=lm(expenditure~
+            income*share*months*active, data=train)
+summary(model5)
+```
+
+```{r}
+pred5=model5%>%
+  predict(test)
+```
+
+```{r}
+RMSE(pred5,test$expenditure)
+```
+```{r}
+R2(pred5,test$expenditure)
+```
+
+```{r}
+model6=lm(expenditure~
+            card*income*selfemp*majorcards,data=train)
+summary(model6)
+```
+```{r}
+pred6=model6%>%
+  predict(test)
+RMSE(pred6,test$expenditure)
+R2(pred6,test$expenditure)
+```
+
+### On comparing the 6 models, Model 5 performed the best with its high Adjusted R-Squared (1) and low RMSE (0.32) as compared with other models.
+
+```{r}
+# You can view the points following the line in the first plot.
+plot(model5,1)
+plot(model5,2)
+plot(model5,3)
+plot(model5,4)
+
+```
+
