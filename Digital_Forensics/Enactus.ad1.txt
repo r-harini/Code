@@ -1,0 +1,28 @@
+﻿Created By AccessData® FTK® Imager 4.5.0.3 
+
+Case Information: 
+Acquired using: ADI4.5.0.3
+Case Number: 1
+Evidence Number: 
+Unique Description: 
+Examiner: 
+Notes: 
+
+--------------------------------------------------------------
+
+Information for C:\Code\Digital_Forensics\Enactus.ad1:
+[Computed Hashes]
+ MD5 checksum:    5e29aaecca82aca6ca62590623dadb74
+ SHA1 checksum:   abba2733789d28baa020619af866a1f14b6c7a1d
+
+Image information:
+ Acquisition started:   Thu Mar 25 09:37:50 2021
+ Acquisition finished:  Thu Mar 25 09:37:50 2021
+ Segment list:
+  C:\Code\Digital_Forensics\Enactus.ad1
+
+Image Verification Results:
+ Verification started:  Thu Mar 25 09:37:50 2021
+ Verification finished: Thu Mar 25 09:37:50 2021
+ MD5 checksum:    5e29aaecca82aca6ca62590623dadb74 : verified
+ SHA1 checksum:   abba2733789d28baa020619af866a1f14b6c7a1d : verified

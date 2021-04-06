@@ -1,0 +1,28 @@
+﻿Created By AccessData® FTK® Imager 4.5.0.3 
+
+Case Information: 
+Acquired using: ADI4.5.0.3
+Case Number: 1
+Evidence Number: 
+Unique Description: 
+Examiner: 
+Notes: 
+
+--------------------------------------------------------------
+
+Information for C:\Code\Digital_Forensics\Lab1_img.ad1:
+[Computed Hashes]
+ MD5 checksum:    42176be7922611c261e5b9aa1e8ced28
+ SHA1 checksum:   82fdd31563359c7e870e664875d2d19ec243b29d
+
+Image information:
+ Acquisition started:   Wed Mar 24 09:54:40 2021
+ Acquisition finished:  Wed Mar 24 09:54:40 2021
+ Segment list:
+  C:\Code\Digital_Forensics\Lab1_img.ad1
+
+Image Verification Results:
+ Verification started:  Wed Mar 24 09:54:40 2021
+ Verification finished: Wed Mar 24 09:54:40 2021
+ MD5 checksum:    42176be7922611c261e5b9aa1e8ced28 : verified
+ SHA1 checksum:   82fdd31563359c7e870e664875d2d19ec243b29d : verified
